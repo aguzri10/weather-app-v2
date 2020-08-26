@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:open_weather_mobile/core/routes/constants.dart';
-import 'package:open_weather_mobile/view/home.dart';
+import 'package:open_weather_mobile/view/pages/home/index.dart';
 
 import '../../main.dart';
 
