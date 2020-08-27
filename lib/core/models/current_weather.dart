@@ -1,3 +1,5 @@
+import 'package:open_weather_mobile/core/services/env.dart';
+
 class CurrentWeather {
   final Coord coord;
   final Weather weather;
@@ -116,4 +118,16 @@ class Sys {
         sunrise = json['sunrise'],
         sunset = json['sunset'],
         country = json['country'];
+}
+
+class CurrentWeatherState {
+  final String lat, lon, appId;
+
+  CurrentWeatherState({this.lat, this.lon, this.appId});
+
+  Map<String, dynamic> toJson() => {
+        'lat': lat,
+        'lon': lon,
+        'appid': AppID,
+      };
 }
