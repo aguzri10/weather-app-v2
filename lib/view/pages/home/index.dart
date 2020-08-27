@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:open_weather_mobile/view/pages/home/sections/information_date.dart';
 import 'package:open_weather_mobile/view/styles/color.dart';
 import 'package:open_weather_mobile/view/styles/constants.dart';
 import 'package:open_weather_mobile/view/widgets/custom_inkwell.dart';
 import 'package:open_weather_mobile/view/widgets/dialogs/dialogs.dart';
+
+import 'sections/date_information.dart';
+import 'sections/temp_information.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -38,22 +40,30 @@ class _HomePageState extends State<HomePage> {
             elevation: 0,
             pinned: true,
             leading: CustomInkwell(
-              onTap: () {},
+              onTap: _showInfoLocation,
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: SvgPicture.asset(iconMenu),
               ),
             ),
           ),
-          ..._buildSectionsInformationDate(),
+          ..._buildSectionDateInformation(),
+          ..._buildSectionTempInformation(),
         ],
       ),
     );
   }
 }
 
-List<Widget> _buildSectionsInformationDate() {
+List<Widget> _buildSectionDateInformation() {
   return [
-    SliverToBoxAdapter(child: InformationDate()),
+    SliverToBoxAdapter(child: DateInformation()),
+    SliverToBoxAdapter(child: SizedBox(height: 26)),
+  ];
+}
+
+List<Widget> _buildSectionTempInformation() {
+  return [
+    SliverToBoxAdapter(child: TempInformation()),
   ];
 }
