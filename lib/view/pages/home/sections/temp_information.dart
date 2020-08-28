@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:geocoder/geocoder.dart';
 import 'package:open_weather_mobile/view/styles/color.dart';
 
 class TempInformation extends StatelessWidget {
+  final Address address;
+
+  const TempInformation({Key key, @required this.address}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -40,7 +44,7 @@ class TempInformation extends StatelessWidget {
         ),
         SizedBox(height: 8),
         Text(
-          'Tebet, Jakarta Selatan',
+          '${address.locality}, ${address.subAdminArea}',
           style: TextStyle(
             fontSize: 14,
             color: Colors.blue[300],

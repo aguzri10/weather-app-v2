@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:open_weather_mobile/core/utils/utils.dart';
 
 class DateInformation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final dateNow = DateTime.now();
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.center,
@@ -18,7 +20,7 @@ class DateInformation extends StatelessWidget {
               style: TextStyle(fontSize: 14, color: Colors.white),
             ),
             Text(
-              'Sat, 3 Aug',
+              Utils.getFormatDateHistory(dateNow),
               style: TextStyle(fontSize: 10, color: Colors.white),
             )
           ],

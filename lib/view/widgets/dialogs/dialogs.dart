@@ -52,7 +52,7 @@ class Dialogs {
                   ),
                 ),
               ),
-              // SizedBox(height: 15),
+              SizedBox(height: 15),
               // FlatButton(
               //   materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
               //   color: primaryColor,

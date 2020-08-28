@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:geocoder/geocoder.dart';
 import 'package:location/location.dart';
 import 'package:open_weather_mobile/core/providers/states.dart';
 import 'package:open_weather_mobile/view/styles/color.dart';
@@ -21,6 +22,7 @@ class _HomePageState extends State<HomePage> {
   bool _servicesEnable;
   PermissionStatus _permissionGranted;
   LocationData _locationData;
+  Address _address;
 
   @override
   void initState() {
@@ -51,15 +53,26 @@ class _HomePageState extends State<HomePage> {
       setState(() {
         state.getLocationData(_locationData);
       });
+
+      _getAddress();
     }
+  }
+
+  void _getAddress() async {
+    final coordinates =
+        Coordinates(_locationData?.latitude, _locationData?.longitude);
+    final addresses =
+        await Geocoder.local.findAddressesFromCoordinates(coordinates);
+    setState(() {
+      _address = addresses.first;
+    });
   }
 
   _showInfoLocation() {
     Dialogs.showDialogInformation(
       context: context,
-      title: 'Tebet, Jakarta Selatan',
-      description:
-          'Jl. Tebet Dalam Timur no.46 Kecamatan Tebet, Jakarta Selatan',
+      title: '${_address.locality}, ${_address.subAdminArea}',
+      description: '${_address.addressLine}',
     );
   }
 
@@ -83,7 +96,7 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           ..._buildSectionDateInformation(),
-          ..._buildSectionTempInformation(),
+          ..._buildSectionTempInformation(_address),
         ],
       ),
     );
@@ -97,8 +110,8 @@ List<Widget> _buildSectionDateInformation() {
   ];
 }
 
-List<Widget> _buildSectionTempInformation() {
+List<Widget> _buildSectionTempInformation(Address address) {
   return [
-    SliverToBoxAdapter(child: TempInformation()),
+    SliverToBoxAdapter(child: TempInformation(address: address)),
   ];
 }
