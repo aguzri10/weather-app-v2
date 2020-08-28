@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:location/location.dart';
 import 'package:open_weather_mobile/view/styles/color.dart';
 import 'package:open_weather_mobile/view/styles/constants.dart';
 import 'package:open_weather_mobile/view/widgets/custom_inkwell.dart';
@@ -14,9 +15,35 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  Location _location = Location();
+  bool _servicesEnable;
+  PermissionStatus _permissionGranted;
+  LocationData _locationData;
+
   @override
   void initState() {
     super.initState();
+    _getCurrentLocation();
+  }
+
+  void _getCurrentLocation() async {
+    _servicesEnable = await _location.serviceEnabled();
+    if (!_servicesEnable) {
+      _servicesEnable = await _location.requestService();
+      if (!_servicesEnable) {
+        return;
+      }
+    }
+
+    _permissionGranted = await _location.hasPermission();
+    if (_permissionGranted == PermissionStatus.denied) {
+      _permissionGranted = await _location.requestPermission();
+      if (_permissionGranted != PermissionStatus.granted) {
+        return;
+      }
+    }
+
+    _locationData = await _location.getLocation();
   }
 
   _showInfoLocation() {
