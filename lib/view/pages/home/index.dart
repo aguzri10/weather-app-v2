@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:location/location.dart';
+import 'package:open_weather_mobile/core/providers/states.dart';
 import 'package:open_weather_mobile/view/styles/color.dart';
 import 'package:open_weather_mobile/view/styles/constants.dart';
 import 'package:open_weather_mobile/view/widgets/custom_inkwell.dart';
 import 'package:open_weather_mobile/view/widgets/dialogs/dialogs.dart';
+import 'package:provider/provider.dart';
 
 import 'sections/date_information.dart';
 import 'sections/temp_information.dart';
@@ -44,6 +46,12 @@ class _HomePageState extends State<HomePage> {
     }
 
     _locationData = await _location.getLocation();
+    if (_locationData != null) {
+      final state = Provider.of<StatesProvider>(context, listen: false);
+      setState(() {
+        state.getLocationData(_locationData);
+      });
+    }
   }
 
   _showInfoLocation() {
