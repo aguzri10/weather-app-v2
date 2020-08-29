@@ -22,7 +22,7 @@ class Api {
       if (response.statusCode == 200) {
         return jsonDecoded;
       } else {
-        throw jsonDecoded['error']['message'];
+        throw jsonDecoded['message'];
       }
     } on FormatException {
       throw gatewayTimeOutText;

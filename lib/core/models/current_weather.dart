@@ -2,7 +2,7 @@ import 'package:open_weather_mobile/core/services/env.dart';
 
 class CurrentWeather {
   final Coord coord;
-  final Weather weather;
+  final List<Weather> weather;
   final String base, name;
   final Main main;
   final int visibility, dt, timeZone, id, cod;
@@ -28,7 +28,9 @@ class CurrentWeather {
 
   CurrentWeather.fromJson(Map<String, dynamic> json)
       : coord = Coord.fromJson(json['coord']),
-        weather = Weather.fromJson(json['weather']),
+        weather = json['weather'] != null
+            ? (json['weather'] as List).map((e) => Weather.fromJson(e)).toList()
+            : null,
         base = json['base'],
         main = Main.fromJson(json['main']),
         visibility = json['visibility'],
@@ -121,13 +123,13 @@ class Sys {
 }
 
 class CurrentWeatherState {
-  final String lat, lon, appId;
+  String lat, lon, appId;
 
-  CurrentWeatherState({this.lat, this.lon, this.appId});
+  CurrentWeatherState({this.lat, this.lon, this.appId = AppID});
 
   Map<String, dynamic> toJson() => {
         'lat': lat,
         'lon': lon,
-        'appid': AppID,
+        'appid': appId,
       };
 }

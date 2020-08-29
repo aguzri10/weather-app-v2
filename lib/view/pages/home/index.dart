@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geocoder/geocoder.dart';
 import 'package:location/location.dart';
+import 'package:open_weather_mobile/core/models/current_weather.dart';
+import 'package:open_weather_mobile/core/providers/providers.dart';
 import 'package:open_weather_mobile/core/providers/states.dart';
 import 'package:open_weather_mobile/view/styles/color.dart';
 import 'package:open_weather_mobile/view/styles/constants.dart';
@@ -18,11 +20,13 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final _currentWeatherState = CurrentWeatherState();
   Location _location = Location();
   bool _servicesEnable;
   PermissionStatus _permissionGranted;
   LocationData _locationData;
   Address _address;
+  bool _loading = false;
 
   @override
   void initState() {
@@ -55,6 +59,7 @@ class _HomePageState extends State<HomePage> {
       });
 
       _getAddress();
+      _getCurrentWeather();
     }
   }
 
@@ -68,6 +73,25 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  void _getCurrentWeather() async {
+    final prov = Provider.of<AppProviders>(context, listen: false);
+    setState(() {
+      _loading = true;
+      _currentWeatherState.lat = _locationData.latitude.toString();
+      _currentWeatherState.lon = _locationData.longitude.toString();
+    });
+    try {
+      await prov.getCurrentWeatherLatLng(_currentWeatherState);
+      if (!mounted) return;
+    } catch (e) {
+      // print(e);
+      throw e;
+    }
+    setState(() {
+      _loading = false;
+    });
+  }
+
   _showInfoLocation() {
     Dialogs.showDialogInformation(
       context: context,
@@ -78,40 +102,54 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: primaryColor,
-      body: CustomScrollView(
-        slivers: [
-          SliverAppBar(
-            brightness: Brightness.dark,
-            backgroundColor: Colors.transparent,
-            elevation: 0,
-            pinned: true,
-            leading: CustomInkwell(
-              onTap: _showInfoLocation,
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: SvgPicture.asset(iconMenu),
+    return Consumer<AppProviders>(builder: (context, value, child) {
+      final currentWeather = value.currentWeatherLatlng;
+
+      return Scaffold(
+        body: Container(
+          decoration: BoxDecoration(gradient: primaryGradient),
+          child: CustomScrollView(
+            slivers: [
+              SliverAppBar(
+                brightness: Brightness.dark,
+                backgroundColor: Colors.transparent,
+                elevation: 0,
+                pinned: true,
+                leading: CustomInkwell(
+                  onTap: _showInfoLocation,
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: SvgPicture.asset(iconMenu),
+                  ),
+                ),
               ),
-            ),
+              if (currentWeather != null) ...[
+                ..._buildSectionAddress(_address),
+                ..._buildSectionTempInformation(_address, currentWeather),
+              ],
+            ],
           ),
-          ..._buildSectionDateInformation(),
-          ..._buildSectionTempInformation(_address),
-        ],
-      ),
-    );
+        ),
+      );
+    });
   }
 }
 
-List<Widget> _buildSectionDateInformation() {
+List<Widget> _buildSectionAddress(Address address) {
   return [
-    SliverToBoxAdapter(child: DateInformation()),
+    SliverToBoxAdapter(
+        child: AddressInformation(address: address)),
     SliverToBoxAdapter(child: SizedBox(height: 26)),
   ];
 }
 
-List<Widget> _buildSectionTempInformation(Address address) {
+List<Widget> _buildSectionTempInformation(
+    Address address, CurrentWeather currentWeather) {
   return [
-    SliverToBoxAdapter(child: TempInformation(address: address)),
+    SliverToBoxAdapter(
+        child: TempInformation(
+      address: address,
+      currentWeather: currentWeather,
+    )),
   ];
 }
