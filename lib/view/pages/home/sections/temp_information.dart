@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:geocoder/geocoder.dart';
 import 'package:open_weather_mobile/core/models/current_weather.dart';
 import 'package:open_weather_mobile/core/utils/utils.dart';
 
 class TempInformation extends StatelessWidget {
-  final Address address;
   final CurrentWeather currentWeather;
 
   const TempInformation({
     Key key,
-    @required this.address,
     @required this.currentWeather,
   }) : super(key: key);
 

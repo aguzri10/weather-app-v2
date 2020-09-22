@@ -7,7 +7,6 @@ class AddressInformation extends StatelessWidget {
   const AddressInformation({Key key, @required this.address}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    // final dateNow = DateTime.now();
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Row(
@@ -39,7 +38,7 @@ class AddressInformation extends StatelessWidget {
             style: TextStyle(
               fontSize: 14,
               color: Color(0xFF6B0040),
-              fontWeight: FontWeight.normal,
+              fontWeight: FontWeight.w500,
             ),
           )
         ],

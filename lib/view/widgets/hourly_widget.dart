@@ -13,7 +13,7 @@ class HourlyWidget extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.transparent,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.white),
+        border: Border.all(color: Color(0xFFBB6BD9)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,

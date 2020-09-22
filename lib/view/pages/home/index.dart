@@ -124,29 +124,29 @@ class _HomePageState extends State<HomePage> {
             : Stack(
                 children: [
                   Positioned(
-                    right: 20,
+                    right: -20,
                     top: 120,
                     child: Container(
-                      height: 189,
-                      width: 189,
+                      height: 289,
+                      width: 289,
                       decoration: BoxDecoration(
                           color: Color(0xFFFA00FF), shape: BoxShape.circle),
                     ),
                   ),
                   Positioned(
-                    left: 20,
+                    left: -20,
                     bottom: 120,
                     child: Container(
-                      height: 189,
-                      width: 189,
+                      height: 289,
+                      width: 289,
                       decoration: BoxDecoration(
                           color: Color(0xFFFF8493), shape: BoxShape.circle),
                     ),
                   ),
                   BackdropFilter(
-                    filter: ImageFilter.blur(sigmaX: 80, sigmaY: 80),
+                    filter: ImageFilter.blur(sigmaX: 120, sigmaY: 120),
                     child: Container(
-                      color: Colors.white.withOpacity(0.10),
+                      color: Colors.white.withOpacity(0.40),
                     ),
                   ),
                   Column(
@@ -170,8 +170,7 @@ class _HomePageState extends State<HomePage> {
                             if (currentWeather != null) ...[
                               ..._buildSectionAddress(_address),
                               ..._buildSectionDateInformation(dateTime),
-                              ..._buildSectionTempInformation(
-                                  _address, currentWeather),
+                              ..._buildSectionTempInformation(currentWeather),
                             ],
                           ],
                         ),
@@ -206,7 +205,11 @@ List<Widget> _buildSectionDateInformation(DateTime dateTime) {
               children: [
                 Text(
                   'Today',
-                  style: TextStyle(fontSize: 32, color: Color(0xFF6B0040)),
+                  style: TextStyle(
+                    fontSize: 32,
+                    color: Color(0xFF6B0040),
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 Text(
                   Utils.getFormatDate(dateTime),
@@ -221,12 +224,10 @@ List<Widget> _buildSectionDateInformation(DateTime dateTime) {
   ];
 }
 
-List<Widget> _buildSectionTempInformation(
-    Address address, CurrentWeather currentWeather) {
+List<Widget> _buildSectionTempInformation(CurrentWeather currentWeather) {
   return [
     SliverToBoxAdapter(
         child: TempInformation(
-      address: address,
       currentWeather: currentWeather,
     )),
   ];
@@ -235,7 +236,8 @@ List<Widget> _buildSectionTempInformation(
 List<Widget> _buildSectionHourlyTemp(List<Hourly> hourlys) {
   return [
     Container(
-      height: 120,
+      height: 152,
+      padding: EdgeInsets.symmetric(vertical: 16),
       color: Colors.white.withOpacity(0.20),
       child: HourlyTemp(hourlys: hourlys),
     )

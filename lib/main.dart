@@ -53,6 +53,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Open Weather',
         theme: ThemeData(
+          fontFamily: 'Quicksand',
           primaryColor: primaryColor,
           scaffoldBackgroundColor: Colors.white,
           visualDensity: VisualDensity.adaptivePlatformDensity,

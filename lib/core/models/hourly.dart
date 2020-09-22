@@ -2,7 +2,7 @@ import 'package:open_weather_mobile/core/models/current_weather.dart';
 
 class Hourly {
   final int dt, pressure, humidity, clouds, visibility, windDeg;
-  final double temp, feelsLike, dewPoint, windSpeed;
+  final double temp, feelsLike, dewPoint, windSpeed, pop;
   final List<Weather> weather;
 
   Hourly({
@@ -16,7 +16,7 @@ class Hourly {
     this.feelsLike,
     this.dewPoint,
     this.windSpeed,
-    // this.pop,
+    this.pop,
     this.weather,
   });
 
@@ -30,8 +30,11 @@ class Hourly {
         temp = json['temp'],
         feelsLike = json['feels_like'],
         dewPoint = json['dew_point'],
-        windSpeed = json['wind_speed'],
-        // pop = json['pop'],
+        windSpeed = json['wind_speed'] is int
+            ? (json['wind_speed'] as int).toDouble()
+            : json['wind_speed'],
+        pop =
+            json['pop'] is int ? (json['pop'] as int).toDouble() : json['pop'],
         weather = json['weather'] != null
             ? (json['weather'] as List).map((e) => Weather.fromJson(e)).toList()
             : null;
