@@ -32,13 +32,13 @@ class AddressInformation extends StatelessWidget {
           //     )
           //   ],
           // )
-          Icon(Icons.location_on, color: Color(0xFF4F81FF)),
+          Icon(Icons.location_on, color: Color(0xFF6B0040)),
           SizedBox(width: 8),
           Text(
             '${address?.locality}, ${address?.subAdminArea}',
             style: TextStyle(
               fontSize: 14,
-              color: Color(0xFF4F81FF),
+              color: Color(0xFF6B0040),
               fontWeight: FontWeight.normal,
             ),
           )

@@ -17,4 +17,12 @@ class Utils {
     final url = '$URLIcon/$icon@2x.png';
     return url;
   }
+
+  static getDateFromUnix(int unix) {
+    final date = DateTime.fromMillisecondsSinceEpoch(unix * 1000);
+    final format = DateFormat('HH:mm');
+    final dateTime = format.format(date);
+
+    return dateTime;
+  }
 }

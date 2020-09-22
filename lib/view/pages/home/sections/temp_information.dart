@@ -27,15 +27,19 @@ class TempInformation extends StatelessWidget {
             children: [
               Text(
                 'Today',
-                style: TextStyle(fontSize: 32, color: Color(0xFF5E8CFF)),
+                style: TextStyle(fontSize: 32, color: Color(0xFF6B0040)),
               ),
               Text(
                 Utils.getFormatDate(dateNow),
-                style: TextStyle(fontSize: 18, color: Color(0XFF5E8CFF)),
+                style: TextStyle(fontSize: 18, color: Color(0XFF6B0040)),
               )
             ],
           ),
           SizedBox(height: 56),
+          Image.network(
+            Utils.urlIcon(currentWeather?.weather[0]?.icon),
+            scale: 2,
+          ),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,

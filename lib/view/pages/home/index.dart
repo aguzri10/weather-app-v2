@@ -1,10 +1,14 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geocoder/geocoder.dart';
 import 'package:location/location.dart';
 import 'package:open_weather_mobile/core/models/current_weather.dart';
+import 'package:open_weather_mobile/core/models/hourly.dart';
 import 'package:open_weather_mobile/core/providers/providers.dart';
 import 'package:open_weather_mobile/core/providers/states.dart';
+import 'package:open_weather_mobile/view/pages/home/sections/hourly_temp.dart';
 import 'package:open_weather_mobile/view/styles/color.dart';
 import 'package:open_weather_mobile/view/styles/constants.dart';
 import 'package:open_weather_mobile/view/widgets/custom_inkwell.dart';
@@ -59,7 +63,7 @@ class _HomePageState extends State<HomePage> {
       });
 
       _getAddress();
-      _getCurrentWeather();
+      _getWeather();
     }
   }
 
@@ -73,7 +77,7 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  void _getCurrentWeather() async {
+  void _getWeather() async {
     final prov = Provider.of<AppProviders>(context, listen: false);
     setState(() {
       _loading = true;
@@ -81,10 +85,14 @@ class _HomePageState extends State<HomePage> {
       _currentWeatherState.lon = _locationData.longitude.toString();
     });
     try {
-      await prov.getCurrentWeatherLatLng(_currentWeatherState);
+      await Future.wait(
+        [
+          prov.getCurrentWeatherLatLng(_currentWeatherState),
+          prov.getHourlyWeather(_currentWeatherState),
+        ],
+      );
       if (!mounted) return;
     } catch (e) {
-      // print(e);
       throw e;
     }
     setState(() {
@@ -104,31 +112,60 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Consumer<AppProviders>(builder: (context, value, child) {
       final currentWeather = value.currentWeatherLatlng;
+      final hourlys = value.hourlys;
 
       return Scaffold(
-        body: Container(
-          decoration: BoxDecoration(gradient: primaryGradient),
-          child: CustomScrollView(
-            slivers: [
-              SliverAppBar(
-                brightness: Brightness.dark,
-                backgroundColor: Colors.transparent,
-                elevation: 0,
-                pinned: true,
-                leading: CustomInkwell(
-                  onTap: _showInfoLocation,
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: SvgPicture.asset(iconMenu),
+        body: Stack(
+          children: [
+            Positioned(
+              right: 20,
+              top: 120,
+              child: Container(
+                height: 189,
+                width: 189,
+                decoration: BoxDecoration(
+                    color: Color(0xFFFA00FF), shape: BoxShape.circle),
+              ),
+            ),
+            Positioned(
+              left: 20,
+              bottom: 120,
+              child: Container(
+                height: 189,
+                width: 189,
+                decoration: BoxDecoration(
+                    color: Color(0xFFFF8493), shape: BoxShape.circle),
+              ),
+            ),
+            BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 80, sigmaY: 80),
+              child: Container(
+                color: Colors.white.withOpacity(0.10),
+              ),
+            ),
+            CustomScrollView(
+              slivers: [
+                SliverAppBar(
+                  brightness: Brightness.dark,
+                  backgroundColor: Colors.transparent,
+                  elevation: 0,
+                  pinned: true,
+                  leading: CustomInkwell(
+                    onTap: _showInfoLocation,
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: SvgPicture.asset(iconMenu),
+                    ),
                   ),
                 ),
-              ),
-              if (currentWeather != null) ...[
-                ..._buildSectionAddress(_address),
-                ..._buildSectionTempInformation(_address, currentWeather),
+                if (currentWeather != null) ...[
+                  ..._buildSectionAddress(_address),
+                  ..._buildSectionTempInformation(_address, currentWeather),
+                  // ..._buildSectionHourlyTemp(hourlys),
+                ],
               ],
-            ],
-          ),
+            ),
+          ],
         ),
       );
     });
@@ -137,8 +174,7 @@ class _HomePageState extends State<HomePage> {
 
 List<Widget> _buildSectionAddress(Address address) {
   return [
-    SliverToBoxAdapter(
-        child: AddressInformation(address: address)),
+    SliverToBoxAdapter(child: AddressInformation(address: address)),
     SliverToBoxAdapter(child: SizedBox(height: 26)),
   ];
 }
@@ -151,5 +187,16 @@ List<Widget> _buildSectionTempInformation(
       address: address,
       currentWeather: currentWeather,
     )),
+  ];
+}
+
+List<Widget> _buildSectionHourlyTemp(List<Hourly> hourlys) {
+  return [
+    SliverToBoxAdapter(
+      child: Container(
+        height: 120,
+        child: HourlyTemp(hourlys: hourlys),
+      ),
+    )
   ];
 }
