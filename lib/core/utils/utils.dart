@@ -1,5 +1,6 @@
 import 'package:intl/intl.dart';
 import 'package:open_weather_mobile/core/services/env.dart';
+import 'package:open_weather_mobile/view/styles/constants.dart';
 
 class Utils {
   // example :
@@ -24,5 +25,19 @@ class Utils {
     final dateTime = format.format(date);
 
     return dateTime;
+  }
+
+  static String handleCondition(String source) {
+    if (source.contains('clear')) {
+      return iconClear;
+    } else if (source.contains('few')) {
+      return iconFewClouds;
+    } else if (source.contains('scattered')) {
+      return iconScatteredClouds;
+    } else if (source.contains('rain')) {
+      return iconRain;
+    }
+
+    return iconClear;
   }
 }

@@ -8,29 +8,11 @@ class AddressInformation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(16.0),
+      padding: const EdgeInsets.all(20.0),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: [
-          // Image.network(
-          //   Utils.urlIcon(currentWeather?.weather[0]?.icon),
-          //   scale: 2,
-          // ),
-          // SizedBox(width: 8),
-          // Column(
-          //   crossAxisAlignment: CrossAxisAlignment.start,
-          //   children: [
-          //     Text(
-          //       'Today',
-          //       style: TextStyle(fontSize: 14, color: Colors.white),
-          //     ),
-          //     Text(
-          //       Utils.getFormatDateHistory(dateNow),
-          //       style: TextStyle(fontSize: 10, color: Colors.white),
-          //     )
-          //   ],
-          // )
           Icon(Icons.location_on, color: Color(0xFF6B0040)),
           SizedBox(width: 8),
           Text(

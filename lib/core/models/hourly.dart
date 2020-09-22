@@ -27,9 +27,15 @@ class Hourly {
         clouds = json['clouds'],
         visibility = json['visibility'],
         windDeg = json['wind_deg'],
-        temp = json['temp'],
-        feelsLike = json['feels_like'],
-        dewPoint = json['dew_point'],
+        temp = json['temp'] is int
+            ? (json['temp'] as int).toDouble()
+            : json['temp'],
+        feelsLike = json['feels_like'] is int
+            ? (json['feels_like'] as int).toDouble()
+            : json['feels_like'],
+        dewPoint = json['dew_point'] is int
+            ? (json['dew_point'] as int).toDouble()
+            : json['dew_point'],
         windSpeed = json['wind_speed'] is int
             ? (json['wind_speed'] as int).toDouble()
             : json['wind_speed'],

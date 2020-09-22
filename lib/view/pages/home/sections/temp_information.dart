@@ -12,52 +12,52 @@ class TempInformation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 46, horizontal: 16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Center(
-            child: Image.network(
-              Utils.urlIcon(currentWeather?.weather[0]?.icon),
-              width: 182,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(height: 43),
+        Center(
+          child: Image.asset(
+            Utils.handleCondition(currentWeather?.weather[0].desc),
+            width: 183,
+          ),
+        ),
+        SizedBox(height: 60),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(width: 20),
+            Text(
+              currentWeather == null
+                  ? '27'
+                  : Utils.getCelciusFromKelvin(currentWeather.main.temp)
+                      .toStringAsFixed(0),
+              style: TextStyle(
+                fontSize: 64,
+                color: Color(0XFF6B0040),
+                fontWeight: FontWeight.w500,
+              ),
             ),
-          ),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                currentWeather == null
-                    ? '27'
-                    : Utils.getCelciusFromKelvin(currentWeather.main.temp)
-                        .toStringAsFixed(0),
-                style: TextStyle(
-                  fontSize: 64,
-                  color: Color(0XFF6B0040),
-                  fontWeight: FontWeight.w500,
-                ),
+            Container(
+              width: 10,
+              height: 10,
+              decoration: BoxDecoration(
+                color: Colors.transparent,
+                border: Border.all(color: Color(0XFF6B0040), width: 2),
+                shape: BoxShape.circle,
               ),
-              Container(
-                width: 10,
-                height: 10,
-                decoration: BoxDecoration(
-                  color: Colors.transparent,
-                  border: Border.all(color: Color(0XFF6B0040), width: 2),
-                  shape: BoxShape.circle,
-                ),
+            ),
+            Text(
+              'c',
+              style: TextStyle(
+                fontSize: 64,
+                color: Color(0XFF6B0040),
+                fontWeight: FontWeight.w500,
               ),
-              Text(
-                'c',
-                style: TextStyle(
-                  fontSize: 64,
-                  color: Color(0XFF6B0040),
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 }

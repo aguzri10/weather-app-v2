@@ -8,6 +8,7 @@ class HourlyWidget extends StatelessWidget {
   const HourlyWidget({Key key, @required this.hourly}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    print(hourly.weather);
     return Container(
       padding: EdgeInsets.all(8),
       decoration: BoxDecoration(
@@ -28,10 +29,12 @@ class HourlyWidget extends StatelessWidget {
               fontWeight: FontWeight.w500,
             ),
           ),
-          Image.network(
-            Utils.urlIcon(hourly?.weather[0]?.icon),
-            scale: 4,
+          SizedBox(height: 8),
+          Image.asset(
+            Utils.handleCondition(hourly?.weather[0]?.desc),
+            width: 26,
           ),
+          SizedBox(height: 8),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,

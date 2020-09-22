@@ -226,10 +226,7 @@ List<Widget> _buildSectionDateInformation(DateTime dateTime) {
 
 List<Widget> _buildSectionTempInformation(CurrentWeather currentWeather) {
   return [
-    SliverToBoxAdapter(
-        child: TempInformation(
-      currentWeather: currentWeather,
-    )),
+    SliverToBoxAdapter(child: TempInformation(currentWeather: currentWeather)),
   ];
 }
 
