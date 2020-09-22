@@ -14,7 +14,7 @@ class Utils {
   }
 
   static String urlIcon(String icon) {
-    final url = '$URLIcon/$icon@2x.png';
+    final url = '$URLIcon/$icon@4x.png';
     return url;
   }
 

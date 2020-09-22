@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:geocoder/geocoder.dart';
 import 'package:open_weather_mobile/core/models/current_weather.dart';
 import 'package:open_weather_mobile/core/utils/utils.dart';
-import 'package:open_weather_mobile/view/styles/color.dart';
 
 class TempInformation extends StatelessWidget {
   final Address address;
@@ -16,33 +15,19 @@ class TempInformation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final dateNow = DateTime.now();
     return Padding(
-      padding: const EdgeInsets.all(16.0),
+      padding: const EdgeInsets.symmetric(vertical: 46, horizontal: 16),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Today',
-                style: TextStyle(fontSize: 32, color: Color(0xFF6B0040)),
-              ),
-              Text(
-                Utils.getFormatDate(dateNow),
-                style: TextStyle(fontSize: 18, color: Color(0XFF6B0040)),
-              )
-            ],
-          ),
-          SizedBox(height: 56),
-          Image.network(
-            Utils.urlIcon(currentWeather?.weather[0]?.icon),
-            scale: 2,
+          Center(
+            child: Image.network(
+              Utils.urlIcon(currentWeather?.weather[0]?.icon),
+              width: 182,
+            ),
           ),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
                 currentWeather == null
@@ -51,7 +36,7 @@ class TempInformation extends StatelessWidget {
                         .toStringAsFixed(0),
                 style: TextStyle(
                   fontSize: 64,
-                  color: Colors.white,
+                  color: Color(0XFF6B0040),
                   fontWeight: FontWeight.w500,
                 ),
               ),
@@ -59,8 +44,8 @@ class TempInformation extends StatelessWidget {
                 width: 10,
                 height: 10,
                 decoration: BoxDecoration(
-                  color: primaryColor,
-                  border: Border.all(color: Colors.white, width: 2),
+                  color: Colors.transparent,
+                  border: Border.all(color: Color(0XFF6B0040), width: 2),
                   shape: BoxShape.circle,
                 ),
               ),
@@ -68,7 +53,7 @@ class TempInformation extends StatelessWidget {
                 'c',
                 style: TextStyle(
                   fontSize: 64,
-                  color: Colors.white,
+                  color: Color(0XFF6B0040),
                   fontWeight: FontWeight.w500,
                 ),
               ),

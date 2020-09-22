@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:open_weather_mobile/core/models/hourly.dart';
+import 'package:open_weather_mobile/view/widgets/hourly_widget.dart';
 
 class HourlyTemp extends StatelessWidget {
   final List<Hourly> hourlys;
@@ -12,7 +13,7 @@ class HourlyTemp extends StatelessWidget {
       shrinkWrap: true,
       padding: EdgeInsets.only(left: 16),
       itemBuilder: (context, index) {
-        return Container();
+        return HourlyWidget(hourly: hourlys[index]);
       },
       separatorBuilder: (context, i) {
         return SizedBox(width: 8);

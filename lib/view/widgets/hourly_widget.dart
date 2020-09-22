@@ -12,7 +12,7 @@ class HourlyWidget extends StatelessWidget {
       padding: EdgeInsets.all(8),
       decoration: BoxDecoration(
         color: Colors.transparent,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(16),
         border: Border.all(color: Colors.white),
       ),
       child: Column(
@@ -24,13 +24,13 @@ class HourlyWidget extends StatelessWidget {
             Utils.getDateFromUnix(hourly.dt),
             style: TextStyle(
               fontSize: 14,
-              color: Colors.white,
-              fontWeight: FontWeight.normal,
+              color: Color(0xFF6B0040),
+              fontWeight: FontWeight.w500,
             ),
           ),
           Image.network(
             Utils.urlIcon(hourly?.weather[0]?.icon),
-            scale: 2,
+            scale: 4,
           ),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -42,17 +42,17 @@ class HourlyWidget extends StatelessWidget {
                     : Utils.getCelciusFromKelvin(hourly.temp)
                         .toStringAsFixed(0),
                 style: TextStyle(
-                  fontSize: 64,
-                  color: Colors.white,
+                  fontSize: 14,
+                  color: Color(0xFF6B0040),
                   fontWeight: FontWeight.w500,
                 ),
               ),
               Container(
-                width: 10,
-                height: 10,
+                width: 4,
+                height: 4,
                 decoration: BoxDecoration(
                   color: Colors.transparent,
-                  border: Border.all(color: Colors.white, width: 2),
+                  border: Border.all(color: Color(0xFF6B0040), width: 2),
                   shape: BoxShape.circle,
                 ),
               ),
