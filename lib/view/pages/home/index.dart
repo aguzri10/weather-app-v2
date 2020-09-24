@@ -233,10 +233,10 @@ List<Widget> _buildSectionTempInformation(CurrentWeather currentWeather) {
 List<Widget> _buildSectionHourlyTemp(List<Hourly> hourlys) {
   return [
     Container(
-      height: 152,
+      height: 216,
       padding: EdgeInsets.symmetric(vertical: 16),
       color: Colors.white.withOpacity(0.20),
       child: HourlyTemp(hourlys: hourlys),
-    )
+    ),
   ];
 }

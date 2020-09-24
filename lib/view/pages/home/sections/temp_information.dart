@@ -15,14 +15,14 @@ class TempInformation extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(height: 43),
+        SizedBox(height: 53),
         Center(
           child: Image.asset(
             Utils.handleCondition(currentWeather?.weather[0].desc),
-            width: 183,
+            width: 222,
           ),
         ),
-        SizedBox(height: 60),
+        SizedBox(height: 70),
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
