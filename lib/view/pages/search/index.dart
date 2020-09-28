@@ -1,6 +1,8 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:open_weather_mobile/core/utils/utils.dart';
+import 'package:open_weather_mobile/view/widgets/weather_widget.dart';
 
 class SearchPage extends StatelessWidget {
   @override
@@ -52,6 +54,7 @@ class SearchPage extends StatelessWidget {
                         },
                       ),
                     ),
+                    ..._buildSectionWeather(),
                   ],
                 ),
               ),
@@ -61,4 +64,23 @@ class SearchPage extends StatelessWidget {
       ),
     );
   }
+}
+
+List<Widget> _buildSectionWeather() {
+  return [
+    SliverToBoxAdapter(
+      child: ListView.separated(
+        physics: NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
+        padding: EdgeInsets.symmetric(horizontal: 16),
+        itemBuilder: (context, index) {
+          return WeatherWidget();
+        },
+        separatorBuilder: (context, index) {
+          return SizedBox(height: 16);
+        },
+        itemCount: 10,
+      ),
+    )
+  ];
 }

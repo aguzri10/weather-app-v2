@@ -133,3 +133,14 @@ class CurrentWeatherState {
         'appid': appId,
       };
 }
+
+class SearchWeatherState {
+  String query, appId;
+
+  SearchWeatherState({this.query, this.appId = AppID});
+
+  Map<String, dynamic> toJson() => {
+        'query': query,
+        'appid': appId,
+      };
+}

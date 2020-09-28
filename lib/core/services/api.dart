@@ -33,12 +33,37 @@ class Api {
     }
   }
 
-  static Future<Map<String, dynamic>> getOneCallHourly(CurrentWeatherState state) async {
+  static Future<Map<String, dynamic>> getOneCallHourly(
+      CurrentWeatherState state) async {
     try {
       final response = await http.get(
-        oneCallURL + '?lat=${state.lat}&lon=${state.lon}&exclude=minutely,current,daily&appid=${state.appId}',
+        oneCallURL +
+            '?lat=${state.lat}&lon=${state.lon}&exclude=minutely,current,daily&appid=${state.appId}',
         headers: headers,
       );
+      final Map<String, dynamic> jsonDecoded = jsonDecode(response.body);
+      if (response.statusCode == 200) {
+        return jsonDecoded;
+      } else {
+        throw jsonDecoded['message'];
+      }
+    } on FormatException {
+      throw gatewayTimeOutText;
+    } on SocketException {
+      throw noInternetText;
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  static Future<Map<String, dynamic>> getSearch(
+      SearchWeatherState state) async {
+    try {
+      final response = await http.get(
+        weatherURL + '?q=${state.query}&appid=${state.appId}',
+        headers: headers,
+      );
+
       final Map<String, dynamic> jsonDecoded = jsonDecode(response.body);
       if (response.statusCode == 200) {
         return jsonDecoded;
