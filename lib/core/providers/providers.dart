@@ -10,6 +10,9 @@ class AppProviders extends ChangeNotifier {
   List<Hourly> _hourlys;
   List<Hourly> get hourlys => _hourlys;
 
+  CurrentWeather _searchWeather;
+  CurrentWeather get searchWeather => _searchWeather;
+
   Future<void> getCurrentWeatherLatLng(CurrentWeatherState state) async {
     try {
       final response = await Api.getCurrentWeatherByLatLon(state);
@@ -28,6 +31,17 @@ class AppProviders extends ChangeNotifier {
               (response['hourly'] as List).isNotEmpty
           ? (response['hourly'] as List).map((e) => Hourly.fromJson(e)).toList()
           : null;
+      notifyListeners();
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  Future<void> getSearch(SearchWeatherState state) async {
+    try {
+      final response = await Api.getSearch(state);
+      _searchWeather =
+          response != null ? CurrentWeather.fromJson(response) : null;
       notifyListeners();
     } catch (e) {
       throw e;
