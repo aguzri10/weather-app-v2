@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:open_weather_mobile/core/models/current_weather.dart';
 import 'package:open_weather_mobile/core/utils/utils.dart';
 
 class WeatherWidget extends StatelessWidget {
+  final CurrentWeather weather;
+
+  const WeatherWidget({Key key,@required this.weather}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -14,7 +18,7 @@ class WeatherWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Image.asset(
-            Utils.handleCondition('few clouds'),
+            Utils.handleCondition(weather.weather[0].desc),
             width: 26,
           ),
           SizedBox(width: 8),
@@ -29,7 +33,7 @@ class WeatherWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Jakarta Selatan',
+                  weather.name,
                   style: TextStyle(
                     fontSize: 14,
                     color: Color(0xFF6B0040),
@@ -37,7 +41,7 @@ class WeatherWidget extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  'Few Clouds',
+                  weather.weather[0].main,
                   style: TextStyle(
                     fontSize: 12,
                     color: Color(0xFF6B0040),
@@ -52,7 +56,10 @@ class WeatherWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                '27',
+                weather != null
+                    ? Utils.getCelciusFromKelvin(weather.main.temp)
+                        .toStringAsFixed(0)
+                    : null,
                 style: TextStyle(
                   fontSize: 14,
                   color: Color(0xFF6B0040),
