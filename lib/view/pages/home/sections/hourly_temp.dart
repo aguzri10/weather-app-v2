@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:open_weather_mobile/core/models/hourly.dart';
+import 'package:open_weather_mobile/view/widgets/dot_widget.dart';
 import 'package:open_weather_mobile/view/widgets/hourly_widget.dart';
 
 class HourlyTemp extends StatefulWidget {
@@ -15,6 +16,8 @@ class _HourlyTempState extends State<HourlyTemp> {
   List<Hourly> _hourlys;
   List<List<Hourly>> hourlysSliced = [];
 
+  int _index = 0;
+
   @override
   void initState() {
     super.initState();
@@ -23,7 +26,7 @@ class _HourlyTempState extends State<HourlyTemp> {
 
   void _init() {
     setState(() {
-      _hourlys = widget.hourlys;
+      _hourlys = widget.hourlys.take(12).toList();
     });
     for (var index = 0; index < _hourlys.length; index++) {
       for (var i = 0; i < _hourlys.length; i++) {
@@ -45,9 +48,14 @@ class _HourlyTempState extends State<HourlyTemp> {
         Expanded(
           child: PageView.builder(
             controller: PageController(
-              initialPage: 0,
+              initialPage: _index,
               viewportFraction: 0.92,
             ),
+            onPageChanged: (index) {
+              setState(() {
+                _index = index;
+              });
+            },
             itemCount: hourlysSliced.length,
             itemBuilder: (context, index) {
               return Padding(
@@ -71,41 +79,14 @@ class _HourlyTempState extends State<HourlyTemp> {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Container(
-              height: 8,
-              width: 16,
-              decoration: BoxDecoration(
-                color: Color(0xFFBB6BD9),
-                borderRadius: BorderRadius.circular(8),
+            for (var i = 0; i < hourlysSliced.length; i++) ...[
+              Padding(
+                padding: const EdgeInsets.only(right: 8),
+                child: DotWidget(
+                  width: i == _index ? 16 : 8,
+                ),
               ),
-            ),
-            SizedBox(width: 16),
-            Container(
-              height: 8,
-              width: 8,
-              decoration: BoxDecoration(
-                color: Color(0xFFBB6BD9),
-                shape: BoxShape.circle,
-              ),
-            ),
-            SizedBox(width: 16),
-            Container(
-              height: 8,
-              width: 8,
-              decoration: BoxDecoration(
-                color: Color(0xFFBB6BD9),
-                shape: BoxShape.circle,
-              ),
-            ),
-            SizedBox(width: 16),
-            Container(
-              height: 8,
-              width: 8,
-              decoration: BoxDecoration(
-                color: Color(0xFFBB6BD9),
-                shape: BoxShape.circle,
-              ),
-            )
+            ]
           ],
         ),
         SizedBox(height: 32),

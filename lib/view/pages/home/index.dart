@@ -8,6 +8,7 @@ import 'package:open_weather_mobile/core/models/current_weather.dart';
 import 'package:open_weather_mobile/core/models/hourly.dart';
 import 'package:open_weather_mobile/core/providers/providers.dart';
 import 'package:open_weather_mobile/core/providers/states.dart';
+import 'package:open_weather_mobile/core/routes/constants.dart';
 import 'package:open_weather_mobile/core/utils/utils.dart';
 import 'package:open_weather_mobile/view/pages/home/sections/hourly_temp.dart';
 import 'package:open_weather_mobile/view/styles/constants.dart';
@@ -166,6 +167,14 @@ class _HomePageState extends State<HomePage> {
                                   child: SvgPicture.asset(iconMenu),
                                 ),
                               ),
+                              actions: [
+                                IconButton(
+                                  icon: SvgPicture.asset(iconSearch),
+                                  onPressed: () {
+                                    Navigator.pushNamed(context, searchRoute);
+                                  },
+                                )
+                              ],
                             ),
                             if (currentWeather != null) ...[
                               ..._buildSectionAddress(_address),
